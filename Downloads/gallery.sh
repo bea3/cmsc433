@@ -37,6 +37,10 @@ do
         [ -z "$line" ] && continue
 	IFS=":"
 	read key value <<< "$line"
+
+	key=$(echo "${key}" | sed -e 's/^[ \t]*//')
+	value=$(echo "${value}" | sed -e 's/^[ \t]*//')
+
 	if [ "$key" = "title" ]; then
 		title=$value
 		#trim title
@@ -91,6 +95,9 @@ do
         [ -z "$line" ] && continue
 	IFS=":"
 	read photoName caption <<< "$line"
+	
+	photoName=$(echo "${photoName}" | sed -e 's/^[ \t]*//')
+	caption=$(echo "${caption}" | sed -e 's/^[ \t]*//')
 	last3Chars=${photoName:(-4)}
 	if [ "$last3Chars" = ".jpg" ]; then
 		nameLength=$(expr length $photoName)
