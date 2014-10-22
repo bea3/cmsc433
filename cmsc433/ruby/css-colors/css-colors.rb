@@ -30,24 +30,26 @@ colorArr = Hash.new
 occArr = Array.new
 
 while (line = file.gets)
-#line = File.readlines(file)[2]
-#puts "line: " + line.to_s
-#puts "---------------------"
-        if line =~ /(?<=#)(?<!^)(\h{6}|\h{3})/
-		 colors=line.scan(/(?<=#)(?<!^)(\h{6}|\h{3})/)
+        if line =~ /#(?<!^)(\h{6}|\h{3})/
+		 colors=line.scan(/(?<=#)(?<!^)(\h{6}|\h{3})\W/)
 		 for item in colors
 			color = item[0]
+			color.downcase!
 			if color.length == 3
-				//convert from rgb to rrggbb
+				#rgb -> rrggbb
+				tmpColorArr = color.split("")
+				firstColor = tmpColorArr[0]
+				secondColor = tmpColorArr[1]
+				thirdColor = tmpColorArr[2]
+				color = firstColor+firstColor+secondColor+secondColor+thirdColor+thirdColor
+			end
 			if colorArr.has_value?(color) == false
 				arrayLength = colorArr.length
 				colorArr[arrayLength] = color
-				puts color + " was added to the colorArr"
 				occArr[arrayLength] = 1
 			else
 				index = colorArr.key(color)
 				occArr[index] += 1
-				puts "Already was a color, incremented occurence"
 			end
 		 end
 				
@@ -57,8 +59,8 @@ end
 puts "color array"
 puts colorArr
 puts "occurences"
-occArr.each do |occ|
-	puts occ.join(", ")
-end
+puts occArr.join(", ")
 
 file.close
+
+# EDIT HTML -----------------------------------------------------
